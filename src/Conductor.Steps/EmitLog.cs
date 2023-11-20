@@ -13,6 +13,7 @@ namespace Conductor.Steps
         public string Message { get; set; }
 
         public LogLevel Level { get; set; } = LogLevel.Information;
+        public string Output { get; set; }
 
         public EmitLog(ILoggerFactory loggerFactory)
         {
@@ -23,6 +24,7 @@ namespace Conductor.Steps
         {
             var logger = _loggerFactory.CreateLogger(context.Workflow.WorkflowDefinitionId);
             logger.Log(Level, default(EventId), Message, null, (state, ex) => state);
+            Output = Message.ToUpper();
             return Task.FromResult(ExecutionResult.Next());
         }
     }
